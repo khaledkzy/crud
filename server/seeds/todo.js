@@ -14,6 +14,18 @@ exports.seed = function (knex, Promise) {
         title: 'Go to the Lidl',
         priority: 2,
         date: new Date()
+      }, {
+        title: 'Buy a table cover',
+        priority: 3,
+        date: new Date()
+      }, {
+        title: 'Buy a table cover',
+        priority: 3,
+        date: new Date()
+      }, {
+        title: 'Buy a table cover',
+        priority: 3,
+        date: new Date()
       }]
   return knex('todo').insert(todos); // now insert them
 });
