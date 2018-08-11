@@ -15,4 +15,36 @@ router.get('/new', (req, res, next) => {
     res.render('new');
 });
 
+function validTodo(todo) {
+    return typeof todo.title == 'string' &&
+        todo.title.trim() != '' &&
+        typeof todo.priority != 'undefined' &&
+        !isNaN(Number(todo.priority))
+}
+
+
+router.post('/', (req, res) => {
+    console.log(req.body)
+    if (validTodo(req.body)) {
+        let todo = {
+            title: req.body.title,
+            description: req.body.description,
+            priority: req.body.priority,
+            date: new Date()
+        };
+        //insert into database
+        knex('todo')
+            .insert(todo, 'id')
+            .then(ids => {
+                const id = ids[0]
+                res.redirect(`/todo/${id}`)
+            })
+    } else {
+        res.status(500)
+        res.render('error', {
+            message: 'Invalid Todo'
+        })
+    }
+});
+
 module.exports = router;
