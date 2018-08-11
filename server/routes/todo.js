@@ -11,6 +11,26 @@ router.get('/', (req, res) => {
         })
 });
 
+router.get('/:id', (req, res) => {
+    const id = req.params.id
+    if (typeof id != 'undefined') {
+        knex('todo')
+            .select()
+            .where('id', id)
+            .first()
+            .then(todo => {
+                console.log('todo', todo)
+                res.render('single', todo);
+            })
+    } else {
+        res.status(500)
+        res.render('error', {
+            message: 'Invalid Todo'
+        })
+    }
+
+});
+
 router.get('/new', (req, res, next) => {
     res.render('new');
 });
