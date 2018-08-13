@@ -15,7 +15,7 @@ router.get('/new', (req, res) => {
     res.render('new');
 });
 
-function respondAndRender(id, res, viewName){
+function respondAndRender(id, res, viewName) {
     if (typeof id != 'undefined') {
         knex('todo') // bring the todotable
             .select()
@@ -52,9 +52,7 @@ function validTodo(todo) {
         !isNaN(Number(todo.priority))
 }
 
-
-router.post('/', (req, res) => {
-    console.log(req.body)
+function validateTodoInsertUpdateRedirect(req, res, callback) {
     if (validTodo(req.body)) {
         let todo = {
             title: req.body.title,
@@ -62,19 +60,36 @@ router.post('/', (req, res) => {
             priority: req.body.priority,
             date: new Date()
         };
-        //insert into database
-        knex('todo')
-            .insert(todo, 'id')
-            .then(ids => {
-                const id = ids[0]
-                res.redirect(`/todo/${id}`)
-            })
+        callback(todo)
     } else {
         res.status(500)
         res.render('error', {
             message: 'Invalid Todo'
         })
     }
+}
+router.post('/', (req, res) => {
+    //    console.log(req.body)
+    validateTodoInsertUpdateRedirect(req, res, (todo) => {
+        knex('todo')
+            .insert(todo, 'id')
+            .then(ids => {
+                const id = ids[0]
+                res.redirect(`/todo/${id}`)
+            })
+    })
 });
 
+
+router.put('/:id', (req, res) => {
+    validateTodoInsertUpdateRedirect(req, res, (todo) => {
+        knex('todo')
+        .where('id', req.params.id)
+            .update(todo, 'id')
+            .then(ids => {
+                const id = ids[0]
+                res.redirect(`/todo/${req.params.id}`)
+            })
+    })
+})
 module.exports = router;
