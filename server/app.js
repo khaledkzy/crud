@@ -9,6 +9,13 @@ var usersRouter = require('./routes/users');
 var todo = require('./routes/todo');
 
 var app = express();
+const hbs = require('hbs');
+
+hbs.registerHelper('select', function(selected, options) {
+  return options.fn(this).replace(
+        new RegExp(' value=\"' + selected + '\"'),
+        '$& selected="selected"');
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

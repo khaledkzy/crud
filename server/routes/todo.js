@@ -11,20 +11,19 @@ router.get('/', (req, res) => {
         })
 });
 
-router.get('/new', (req, res    ) => {
+router.get('/new', (req, res) => {
     res.render('new');
 });
 
-router.get('/:id', (req, res) => {
-    const id = req.params.id
+function respondAndRender(id, res, viewName){
     if (typeof id != 'undefined') {
-        knex('todo')
+        knex('todo') // bring the todotable
             .select()
             .where('id', id)
             .first()
             .then(todo => {
                 console.log('todo', todo)
-                res.render('single', todo);
+                res.render(viewName, todo);
             })
     } else {
         res.status(500)
@@ -32,11 +31,18 @@ router.get('/:id', (req, res) => {
             message: 'Invalid Todo'
         })
     }
+}
 
+router.get('/:id', (req, res) => {
+    const id = req.params.id
+    respondAndRender(id, res, 'single')
 });
 
 
-
+router.get('/:id/edit', (req, res) => {
+    const id = req.params.id
+    respondAndRender(id, res, 'edit')
+})
 
 
 function validTodo(todo) {
