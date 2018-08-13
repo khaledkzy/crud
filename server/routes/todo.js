@@ -11,6 +11,10 @@ router.get('/', (req, res) => {
         })
 });
 
+router.get('/new', (req, res    ) => {
+    res.render('new');
+});
+
 router.get('/:id', (req, res) => {
     const id = req.params.id
     if (typeof id != 'undefined') {
@@ -31,9 +35,9 @@ router.get('/:id', (req, res) => {
 
 });
 
-router.get('/new', (req, res, next) => {
-    res.render('new');
-});
+
+
+
 
 function validTodo(todo) {
     return typeof todo.title == 'string' &&
