@@ -84,12 +84,30 @@ router.post('/', (req, res) => {
 router.put('/:id', (req, res) => {
     validateTodoInsertUpdateRedirect(req, res, (todo) => {
         knex('todo')
-        .where('id', req.params.id)
+            .where('id', req.params.id)
             .update(todo, 'id')
             .then(ids => {
                 const id = ids[0]
                 res.redirect(`/todo/${req.params.id}`)
             })
     })
+})
+
+router.delete('/:id', (req, res) => {
+    const id = req.params.id
+    if (typeof id != 'undefined') {
+        knex('todo') // bring the todotable
+            .where('id', id)
+            .del()
+            .then(todo => {
+                console.log('todo', todo)
+                res.redirect('/todo'); // if you used res.render('all')
+            })
+    } else {
+        res.status(500)
+        res.render('error', {
+            message: 'Invalid Todo'
+        })
+    }
 })
 module.exports = router;

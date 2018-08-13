@@ -1,5 +1,5 @@
-<div class='text-center'>
-    <div class="card text-center" style="width: 18rem;">
+<div class="text-center">
+    <div class="card text-center mx-auto" style="width: 18rem; margin-bottom: 20px;">
         <div class="card-body text-center">
             <h2 class="card-title">{{title}}</h2>
             <h3 class="card-text">{{description}}</h3>
@@ -9,8 +9,13 @@
             </div>
 
         </div>
-        <a href="/todo/{{id}}/edit" class="btn btn-warning">EDIT</a>
-        <a href="/todo" class="btn btn-primary">Go Back</a>
 
     </div>
+
+    <form action="/todo/{{id}}?_method=DELETE" method="post">
+        <button href="/todo/{{id}}/edit" type="submit" class="btn btn-default btn-danger">DELETE</button>
+        <button onclick=="/todo" type="button" class="btn btn-default btn-primary">Go Back</button>
+        <button onclick=="/todo/{{id}}/edit" type="button" class="btn btn-default btn-success">EDIT</button>
+    </form>
+
 </div>
