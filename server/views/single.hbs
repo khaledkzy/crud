@@ -14,8 +14,8 @@
 
     <form action="/todo/{{id}}?_method=DELETE" method="post">
         <button href="/todo/{{id}}/edit" type="submit" class="btn btn-default btn-danger">DELETE</button>
-        <button onclick=="/todo" type="button" class="btn btn-default btn-primary">Go Back</button>
-        <button onclick=="/todo/{{id}}/edit" type="button" class="btn btn-default btn-success">EDIT</button>
+            <a href="/todo" type="button" role="button" class="btn btn-primary">Go Back</a>
+         <a href="/todo/{{id}}/edit" type="button" role="button" class="btn btn-default btn-warning">EDIT</a>
     </form>
 
 </div>
